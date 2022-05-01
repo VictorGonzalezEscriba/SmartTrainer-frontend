@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:smart_trainer/requests.dart';
 import 'package:smart_trainer/training.dart';
 import 'creacion0.dart';
@@ -27,7 +26,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key key, this.title}) : super();
   final String title;
 
   @override
@@ -37,8 +36,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   Future<TrainingList> futureTrainingList;
   int _selectedIndex = 0;
+
   @override
   void initState(){
+    super.initState();
     futureTrainingList = getTrainings();
   }
 
@@ -95,19 +96,21 @@ class _MyHomePageState extends State<MyHomePage> {
                             const Divider(),
                           ),
                         ),
-                        const Padding(
-                          padding:  EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
+                        Padding(
+                          padding:  const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundColor: Color(0xFF40916C),
+                            backgroundColor: const Color(0xFF40916C),
                             child: IconButton(
-                              icon: Icon(
+                              icon: const Icon(
                                 Icons.add,
                                 color:  Color.fromRGBO(34, 40, 47, 1),
                                 size: 30,
                               ),
+                              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion0())),
                             )
-                        ),),
+                        ),
+                        ),
                       ]
                     ),
                 bottomNavigationBar: BottomNavigationBar(
@@ -140,6 +143,4 @@ class _MyHomePageState extends State<MyHomePage> {
         }
     );
   }
-
-
 }

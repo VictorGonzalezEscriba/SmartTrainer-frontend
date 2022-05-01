@@ -28,3 +28,14 @@ Future<TrainingList> getTrainings() async {
     throw Exception('Failed to get children');
   }
 }
+void generateTraining(int location, int type, int part) async {
+  String uri = "$baseUrl/generate_training?$location?$type?$part";
+  final response = await client.get(uri);
+  if (response.statusCode == 200) {
+    print("statusCode=$response.statusCode");
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    print("statusCode=$response.statusCode");
+    throw Exception('Failed to get children');
+  }
+}

@@ -1,5 +1,4 @@
 import 'dart:collection';
-
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
 
@@ -15,6 +14,7 @@ class TrainingList {
         Exercise e = Exercise(el["id"], el["name"], el["location"], el["bodyPart1"], el["bodyPart2"], el["bodyPart3"], el["link"], el["weight"], el["series"], el["repes"]);
         t.addExercise(e);
       }
+
       trainingList.add(t);
       length += 1;
     }
@@ -23,7 +23,13 @@ class TrainingList {
   Training getIndex(int index){
     return trainingList[index];
   }
+
+  void addTraining(Training t){
+    trainingList.add(t);
+    length += 1;
+  }
 }
+
 
 class Training {
   int id;
@@ -32,6 +38,7 @@ class Training {
   int nExercises;
   List<Exercise> exercises = [];
   String date;
+
 
   Training(this.id, this.name, this.type, this.nExercises, this.date);
 

@@ -33,6 +33,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+# Add these lines
+linter:
+  rules:
+    use_key_in_widget_constructors: false
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
