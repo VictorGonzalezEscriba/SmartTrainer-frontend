@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
 import 'package:smart_trainer/training.dart';
 import 'creacion0.dart';
+import 'detalleEntrenamiento.dart';
 
 void main() {
   runApp(const MyApp());
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text(t.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
               subtitle: Text(t.date, style: const TextStyle(color: Colors.white60)),
               trailing: const Icon(Icons.chevron_right_outlined, size: 35, color: Colors.white),
-              // onTap: () =>
+              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(t))),
           )
     )
     );
