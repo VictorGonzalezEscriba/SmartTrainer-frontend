@@ -62,11 +62,12 @@ class detalleEntrenamiento extends StatelessWidget {
           ]
         ),
         body: SafeArea(
-          child: Column(
+          child: Center(
+            child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(100, 50, 100, 8),
+                  padding: const EdgeInsetsDirectional.fromSTEB(12, 50, 12, 8),
                   child: Text(
                       training.name,
                       textAlign: TextAlign.center,
@@ -84,12 +85,13 @@ class detalleEntrenamiento extends StatelessWidget {
                     padding: const EdgeInsets.all(16.0),
                     itemCount: training.nExercises,
                     itemBuilder: (BuildContext context, int index) =>
-                      _buildRow(training.exercises[index], index, context),
-                      separatorBuilder: (BuildContext context, int index) =>
-                      const Divider(),
+                        _buildRow(training.exercises[index], index, context),
+                    separatorBuilder: (BuildContext context, int index) =>
+                    const Divider(),
                   ),
                 )
               ],
+            ),
           ),
         ),
     );
