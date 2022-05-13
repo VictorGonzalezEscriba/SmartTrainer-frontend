@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
 import 'package:smart_trainer/training.dart';
-import 'creacion0.dart';
+import 'creacionApp/creacion0.dart';
 import 'detalleEntrenamiento.dart';
 
 void main() {
@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState(){
     super.initState();
     futureTrainingList = getTrainings();
+
   }
 
   void _onItemTapped(int index) {

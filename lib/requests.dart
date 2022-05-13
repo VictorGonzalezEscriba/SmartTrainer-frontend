@@ -18,25 +18,42 @@ Future<TrainingList> getTrainings() async {
   String uri = "$baseUrl/get_trainings";
   final response = await client.get(uri);
   if (response.statusCode == 200) {
-    print("statusCode=$response.statusCode");
-    print(utf8.decode(response.bodyBytes)) as Map;
+    // print("statusCode=$response.statusCode");
+    // print(utf8.decode(response.bodyBytes)) as Map;
     // If the server did return a 200 OK response, then parse the JSON.
     Map<String, dynamic> decoded = convert.jsonDecode(utf8.decode(response.bodyBytes));
     return TrainingList(decoded);
   } else {
     // If the server did not return a 200 OK response, then throw an exception.
-    print("statusCode=$response.statusCode");
+    // print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
 }
+
 void generateTraining(int location, int type, int part) async {
   String uri = "$baseUrl/generate_training?$location?$type?$part";
   final response = await client.get(uri);
   if (response.statusCode == 200) {
-    print("statusCode=$response.statusCode");
+    // print("statusCode=$response.statusCode");
   } else {
     // If the server did not return a 200 OK response, then throw an exception.
-    print("statusCode=$response.statusCode");
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to get children');
+  }
+}
+
+Future<ExerciseList> getExercises() async {
+  String uri = "$baseUrl/get_exercises";
+  final response = await client.get(uri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
+    // print(utf8.decode(response.bodyBytes)) as Map;
+    // If the server did return a 200 OK response, then parse the JSON.
+    Map<String, dynamic> decoded = convert.jsonDecode(utf8.decode(response.bodyBytes));
+    return ExerciseList(decoded);
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
     throw Exception('Failed to get children');
   }
 }

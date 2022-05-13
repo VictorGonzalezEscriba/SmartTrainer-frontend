@@ -1,20 +1,65 @@
-import 'dart:collection';
-import 'package:flutter/material.dart';
-import 'package:smart_trainer/requests.dart';
+
+class ExerciseList {
+  List<Exercise> exerciseList = [];
+  int length = 0;
+
+  ExerciseList(Map<String, dynamic> dec) {
+    List list = dec["exercises"];
+    for (var el in list) {
+      Exercise e = Exercise(
+          el["id"],
+          el["name"],
+          el["location"],
+          el["bodyPart1"],
+          el["bodyPart2"],
+          el["bodyPart3"],
+          el["link"],
+          el["weight"],
+          el["series"],
+          el["repes"]);
+      exerciseList.add(e);
+      length += 1;
+    }
+  }
+
+  List<Exercise> getList(){
+    return exerciseList;
+  }
+
+  void addExercise(Exercise e){
+    exerciseList.add(e);
+    length += 1;
+  }
+}
 
 class TrainingList {
   List<Training> trainingList = [];
   int length = 0;
+
   TrainingList(Map<String, dynamic> dec) {
     List list = dec["trainings"];
     for (var element in list) {
-      Training t = Training(element["tId"], element["tName"], element["type"], element["nExercises"], element["date"]);
+      Training t = Training(
+          element["tId"],
+          element["tName"],
+          element["type"],
+          element["nExercises"],
+          element["date"]);
       List exerciseList = element["exercises"];
       for (var el in exerciseList) {
-        Exercise e = Exercise(el["id"], el["name"], el["location"], el["bodyPart1"], el["bodyPart2"], el["bodyPart3"], el["link"], el["weight"], el["series"], el["repes"]);
+        Exercise e = Exercise(
+            el["id"],
+            el["name"],
+            el["location"],
+            el["bodyPart1"],
+            el["bodyPart2"],
+            el["bodyPart3"],
+            el["link"],
+            el["weight"],
+            el["series"],
+            el["repes"]);
         t.addExercise(e);
       }
-
       trainingList.add(t);
       length += 1;
     }
@@ -61,3 +106,15 @@ class Exercise {
 
   Exercise(this.id, this.name, this.location, this.bodyPart1, this.bodyPart2, this.bodyPart3, this.link, this.weight, this.series, this.repes);
 }
+
+class eList {
+  List<Exercise> exerciseList = [];
+  int length = 0;
+
+
+  void addExercise(Exercise e){
+    exerciseList.add(e);
+    length += 1;
+  }
+}
+

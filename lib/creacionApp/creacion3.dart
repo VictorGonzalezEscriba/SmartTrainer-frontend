@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:smart_trainer/main.dart';
-import 'package:smart_trainer/requests.dart';
 import 'creacion4.dart';
 
 class PaginaCreacion3 extends StatelessWidget {

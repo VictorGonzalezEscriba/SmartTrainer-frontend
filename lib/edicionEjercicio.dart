@@ -55,7 +55,7 @@ class EdicionEjercicio extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                   child: TextButton(
-                    // onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion1())),
+                    onPressed: () => {},
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
                     child: const Text(
                         'Lo hacemos por ti',

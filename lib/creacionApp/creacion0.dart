@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'creacion_1.dart';
+import '../creacionUsuario/creacionUsuario.dart';
 
 class PaginaCreacion0 extends StatelessWidget {
   // This widget is the root of your application.
@@ -29,7 +30,7 @@ class PaginaCreacion0 extends StatelessWidget {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                 child: TextButton(
-                  onPressed: () {},
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const CreacionU())),
                   style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
                   child: const Text(
                       'Yo mismo',

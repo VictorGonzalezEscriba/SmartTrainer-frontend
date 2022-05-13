@@ -9,12 +9,30 @@ class detalleEntrenamiento extends StatelessWidget {
 
   Widget _getWeight(Exercise e, BuildContext context) {
     if (e.weight == 0) {
-      return ListTile(
+      if (e.name == "Plancha" || e.name == "Plancha lateral" || e.name == "Plancha estrella"){
+        return ListTile(
           title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
-          subtitle: const Text("Peso a elegir", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+          subtitle: const Text("Tiempo a elegir", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
           trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
           onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
-      );
+        );
+      } else{
+        if (e.name == "Crunch" || e.name == "Extensión de lumbar" || e.name == "Flexiones" || e.name=="Flexiones inclinadas" || e.name == "Flexiones declinadas") {
+          return ListTile(
+            title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            subtitle: const Text("Sin peso", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+            trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
+          );
+        }else{
+          return ListTile(
+            title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            subtitle: const Text("Peso a elegir", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+            trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
+          );
+        }
+      }
     }
     else {
       return ListTile(
@@ -97,3 +115,4 @@ class detalleEntrenamiento extends StatelessWidget {
     );
   }
 }
+
