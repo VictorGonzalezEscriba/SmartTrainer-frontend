@@ -1,5 +1,5 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_trainer/detalleEntrenamiento.dart';
 import 'package:smart_trainer/training.dart';
 import 'edicionEjercicio.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,14 +31,6 @@ class detalleEjercicio extends StatelessWidget {
             padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 8),
             child: Text(
                 "Series:\n" + exercise.series.toString(),
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10, 10, 10, 8),
-            child: Text(
-                "Repeticiones:\n" + exercise.repes.toString(),
                 textAlign: TextAlign.center,
                 style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)
             ),
@@ -126,7 +118,9 @@ class detalleEjercicio extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
       appBar: AppBar(
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training))),
+          ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
@@ -137,7 +131,7 @@ class detalleEjercicio extends StatelessWidget {
                 Icons.create_rounded,
                 color: Colors.white,
               ),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => EdicionEjercicio(training, exercise))),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => EdicionEjercicio(training: training, exercise: exercise))),
             )
           ]
       ),

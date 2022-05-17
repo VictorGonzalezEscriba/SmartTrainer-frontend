@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'creacionUsuario33.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CreacionU extends StatefulWidget {
   const CreacionU({Key key}) : super(key: key);
@@ -15,6 +16,9 @@ class _CreacionUState extends State<CreacionU> {
 
   void _checkDate(BuildContext context) {
     if (date != null){
+      if(trainingName == ""){
+        Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3("Nuevo entrenamiento", date)));
+      }
       Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3(trainingName, date)));
     }
   }
@@ -22,6 +26,7 @@ class _CreacionUState extends State<CreacionU> {
   void _selectDate(BuildContext context) async{
     date  = await showDatePicker(
       context: context,
+      locale: const Locale("es"),
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
@@ -63,6 +68,7 @@ class _CreacionUState extends State<CreacionU> {
 
   @override
   Widget build(BuildContext context) {
+    final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
     return Scaffold(
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
@@ -78,7 +84,7 @@ class _CreacionUState extends State<CreacionU> {
             child: Column(
                 children: [
                   const Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(25, 25, 25, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(25, 50, 25, 0),
                       child: Text("¿Cómo quieres llamar al entrenamiento?", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22), textAlign: TextAlign.center,)
                   ),
                   Padding(
@@ -100,35 +106,42 @@ class _CreacionUState extends State<CreacionU> {
                           )
                       ),
                   ),
-                  const Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(25, 25, 15, 3),
+                  Visibility(
+                      visible: !keyboardIsOpen,
+                      child: const Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(25, 50, 15, 3),
                       child: Text("¿Qué dia quieres asignarle al entrenamiento?", style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22), textAlign: TextAlign.center,)
-                  ),
-                  Padding(
-                    padding:  const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 3),
-                    child: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: const Color(0xFF40916C),
-                        child: IconButton(
-                          onPressed: () => _selectDate(context),
-                          icon: const Icon(
-                            Icons.calendar_month_rounded,
-                            color:  Color.fromRGBO(34, 40, 47, 1),
-                            size: 30,
-                          ),
-                        )
+                  )),
+                  Visibility(
+                    visible: !keyboardIsOpen,
+                    child: Padding(
+                      padding:  const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 3),
+                      child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: const Color(0xFF40916C),
+                          child: IconButton(
+                            onPressed: () => _selectDate(context),
+                            icon: const Icon(
+                              Icons.calendar_month_rounded,
+                              color:  Color.fromRGBO(34, 40, 47, 1),
+                              size: 30,
+                            ),
+                          )
+                      ),
                     ),
                   ),
-                  Padding(
-                    padding:  const EdgeInsetsDirectional.fromSTEB(15, 10, 15, 0),
-                    child: ElevatedButton(
-                      onPressed: () => _checkDate(context),
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
-                      child: const Text(
-                          "Confirmar",
-                          style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
-                    ),
-                  ),
+                 Visibility(
+                   visible: !keyboardIsOpen,
+                   child:  Padding(
+                   padding:  const EdgeInsetsDirectional.fromSTEB(15, 50, 15, 0),
+                   child: ElevatedButton(
+                     onPressed: () => _checkDate(context),
+                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
+                     child: const Text(
+                         "Confirmar",
+                         style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
+                   ),
+                 ),)
                 ]
             ),
           ),

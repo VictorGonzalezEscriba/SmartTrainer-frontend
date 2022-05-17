@@ -55,7 +55,7 @@ class PaginaCreacion4 extends StatelessWidget {
                   child: TextButton(
                     // 'FullBody'
                     onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp())),
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(197, 38, 27, 1))),
                     child: const Text(
                         'No',
                         style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:16)),

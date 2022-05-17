@@ -17,6 +17,7 @@ class CreacionU2 extends StatelessWidget {
   void _selectDate(BuildContext context) async{
     date  = await showDatePicker(
       context: context,
+      locale: const Locale("es", "ES"),
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
       lastDate: DateTime(2030),
@@ -42,6 +43,7 @@ class CreacionU2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
     return Scaffold(
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
@@ -50,7 +52,6 @@ class CreacionU2 extends StatelessWidget {
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
           elevation: 2,
-
         ),
         body: SafeArea(
           child: Center(
@@ -75,14 +76,17 @@ class CreacionU2 extends StatelessWidget {
                         )
                     ),
                   ),
-                  Padding(
-                    padding:  const EdgeInsetsDirectional.fromSTEB(15, 50, 15, 0),
-                    child: ElevatedButton(
-                      onPressed: () => _checkDate(context),
-                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
-                      child: const Text(
-                          "Confirmar",
-                          style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
+                  Visibility(
+                    visible: !keyboardIsOpen,
+                    child: Padding(
+                      padding:  const EdgeInsetsDirectional.fromSTEB(15, 100, 15, 0),
+                      child: ElevatedButton(
+                        onPressed: () => _checkDate(context),
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
+                        child: const Text(
+                            "Confirmar",
+                            style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
+                      ),
                     ),
                   ),
                 ]

@@ -1,4 +1,26 @@
 
+class newTraining{
+  String name;
+  int nExercises = 0;
+  List<Exercise> exercises = [];
+  String date;
+
+
+  void addExercise(Exercise e){
+    exercises.add(e);
+    nExercises += 1;
+  }
+
+  void setName(String n){
+    name = n;
+  }
+
+  void setDate(DateTime d) {
+    date = d.day.toString() + "-" + d.month.toString() + "-" + d.year.toString();
+  }
+
+}
+
 class ExerciseList {
   List<Exercise> exerciseList = [];
   int length = 0;
@@ -55,7 +77,7 @@ class TrainingList {
             el["bodyPart2"],
             el["bodyPart3"],
             el["link"],
-            el["weight"],
+            el["weight"].toDouble(),
             el["series"],
             el["repes"]);
         t.addExercise(e);
@@ -90,6 +112,14 @@ class Training {
   void addExercise(Exercise e){
     exercises.add(e);
   }
+
+  void setName(String n){
+    name = n;
+  }
+
+  void setDate(DateTime d) {
+    date = d.day.toString() + "-" + d.month.toString() + "-" + d.year.toString();
+  }
 }
 
 class Exercise {
@@ -100,7 +130,7 @@ class Exercise {
   String bodyPart2;
   String bodyPart3;
   String link;
-  int weight;
+  double weight;
   int series;
   int repes;
 
@@ -110,7 +140,6 @@ class Exercise {
 class eList {
   List<Exercise> exerciseList = [];
   int length = 0;
-
 
   void addExercise(Exercise e){
     exerciseList.add(e);

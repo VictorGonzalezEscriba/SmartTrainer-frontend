@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../buscadorEjercicios/buscadorEjercicios.dart';
+import '../training.dart';
 
 class CreacionU3 extends StatelessWidget {
   CreacionU3(this.trainingName, this.date);
   final myController = TextEditingController();
   String trainingName;
   DateTime date;
+  newTraining t;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class CreacionU3 extends StatelessWidget {
                   ),
                   Padding(
                       padding: const EdgeInsetsDirectional.fromSTEB(100, 0, 100, 8),
-                      child: Text(date.day.toString() + "/" + date.month.toString() + "/" + date.year.toString(),
+                      child: Text(date.day.toString() + "-" + date.month.toString() + "-" + date.year.toString(),
                         style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60, fontSize:18), textAlign: TextAlign.center,)
                   ),
                   const Padding(
@@ -49,7 +51,7 @@ class CreacionU3 extends StatelessWidget {
                           color:  Color.fromRGBO(34, 40, 47, 1),
                           size: 30,
                         ),
-                        onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => BuscadorEjercicios())),
+                        onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => BuscadorEjercicios(trainingName: trainingName, date: date))),
                       )
                   ),
                   ),]

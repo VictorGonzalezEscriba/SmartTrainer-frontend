@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_trainer/training.dart';
 import 'edicionEntreno.dart';
 import 'detalleEjercicio.dart';
+import 'main.dart';
 
 class detalleEntrenamiento extends StatelessWidget {
   detalleEntrenamiento(this.training);
@@ -13,7 +14,7 @@ class detalleEntrenamiento extends StatelessWidget {
         return ListTile(
           title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
           subtitle: const Text("Tiempo a elegir", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
-          trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+          trailing: Text(e.series.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
           onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
         );
       } else{
@@ -35,12 +36,30 @@ class detalleEntrenamiento extends StatelessWidget {
       }
     }
     else {
-      return ListTile(
+      if (e.name == "Plancha" || e.name == "Plancha lateral" || e.name == "Plancha estrella"){
+        return ListTile(
           title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
-          subtitle: Text(e.weight.toString() + "kg", style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
-          trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+          subtitle: Text(e.weight.toString()+ " s", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+          trailing: Text(e.series.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
           onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
-      );
+        );
+      } else{
+        if (e.name == "Crunch" || e.name == "Extensión de lumbar" || e.name == "Flexiones" || e.name=="Flexiones inclinadas" || e.name == "Flexiones declinadas") {
+          return ListTile(
+            title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            subtitle: const Text("Sin peso", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+            trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
+          );
+        }else{
+          return ListTile(
+            title: Text(e.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            subtitle: Text(e.weight.toString() + " kg", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white60, fontSize: 18)),
+            trailing: Text(e.series.toString() + "x" + e.repes.toString(), style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
+            onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, e))),
+          );
+        }
+      }
     }
   }
 
@@ -64,7 +83,9 @@ class detalleEntrenamiento extends StatelessWidget {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
-          automaticallyImplyLeading: true,
+            leading: IconButton(icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) =>  const MyApp())),
+            ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
@@ -75,7 +96,7 @@ class detalleEntrenamiento extends StatelessWidget {
                 Icons.create_rounded,
                 color: Colors.white,
               ),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => EdicionEntreno(training))),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => EdicionEntreno(training: training))),
             )
           ]
         ),

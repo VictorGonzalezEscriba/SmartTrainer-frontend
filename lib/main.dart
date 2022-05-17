@@ -3,6 +3,8 @@ import 'package:smart_trainer/requests.dart';
 import 'package:smart_trainer/training.dart';
 import 'creacionApp/creacion0.dart';
 import 'detalleEntrenamiento.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -15,6 +17,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      localizationsDelegates:
+        GlobalMaterialLocalizations.delegates,
+      supportedLocales: const [
+        Locale('es'),
+      ],
       title: 'SmartTrainer',
       theme: ThemeData(
         // This is the theme of your application.
@@ -73,7 +80,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<TrainingList>(
+      return FutureBuilder<TrainingList>(
         future: futureTrainingList,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -85,33 +92,47 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: Text(widget.title, style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
                 centerTitle: true,
                 elevation: 2,
+                  // actions: <Widget>[
+                    //IconButton(
+                      //icon: const Icon(
+                        //Icons.refresh,
+                        //color: Colors.white,
+                      //),
+                     // onPressed: () => setState(() {futureTrainingList = getTrainings();}),
+                   // )
+                 // ]
               ),
                     body: Column(
                       children: [
                         Expanded(
-                          child: ListView.separated(
-                            padding: const EdgeInsets.all(16.0),
-                            itemCount: snapshot.data.length,
-                            itemBuilder: (BuildContext context, int index) =>
-                                _buildRow(snapshot.data.trainingList[index], index),
-                            separatorBuilder: (BuildContext context, int index) =>
-                            const Divider(),
+                          child: RefreshIndicator(
+                              onRefresh: () async {
+                                await Future.delayed(Duration(seconds: 1));
+                                setState(() {futureTrainingList = getTrainings();});
+                              },
+                              child: ListView.separated(
+                              padding: const EdgeInsets.all(16.0),
+                              itemCount: snapshot.data.length,
+                              itemBuilder: (BuildContext context, int index) =>
+                              _buildRow(snapshot.data.trainingList[index], index),
+                              separatorBuilder: (BuildContext context, int index) =>
+                              const Divider(),
+          ),
                           ),
                         ),
                         Padding(
                           padding:  const EdgeInsetsDirectional.fromSTEB(15, 15, 15, 15),
                           child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: const Color(0xFF40916C),
-                            child: IconButton(
-                              icon: const Icon(
-                                Icons.add,
-                                color:  Color.fromRGBO(34, 40, 47, 1),
-                                size: 30,
-                              ),
-                              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion0())),
-                            )
-                        ),
+                              radius: 30,
+                              backgroundColor: const Color(0xFF40916C),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.add,
+                                  color:  Color.fromRGBO(34, 40, 47, 1),
+                                  size: 30,
+                                ), onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion0())),
+                          ),
+                          ),
                         ),
                       ]
                     ),
