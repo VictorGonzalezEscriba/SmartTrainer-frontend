@@ -3,30 +3,32 @@ import 'package:smart_trainer/requests.dart';
 import '../training.dart';
 import 'package:smart_trainer/main.dart';
 
-class BuscadorEjercicios extends StatefulWidget {
-  const BuscadorEjercicios({Key key, this.trainingName, this.date}) : super(key: key);
-    final String trainingName;
-    final DateTime date;
+class Buscador extends StatefulWidget {
+  const Buscador({Key key, this.training}) : super(key: key);
+  final Training training;
 
 
   @override
-  _BuscadorState createState() => _BuscadorState(trainingName, date);
+  _Buscador createState() => _Buscador(training);
 }
 
-class _BuscadorState extends State<BuscadorEjercicios> {
-  _BuscadorState(this.trainingName, this.date);
+class _Buscador extends State<Buscador> {
+  _Buscador(this.training);
   TextEditingController editingController = TextEditingController();
   Future<ExerciseList> futureExerciseList;
   eList items = eList();
   eList filter = eList();
   eList addedExercises = eList();
-  String trainingName;
-  DateTime date;
-  newTraining t = newTraining();
+  Training training;
 
   @override
   void initState() {
     super.initState();
+    if (training.exercises.isNotEmpty){
+      for (Exercise e in training.exercises){
+        addedExercises.addExercise(e);
+      }
+    }
     futureExerciseList = getExercises().then((result) {
       // print(items.length);
       setState(() {
@@ -37,8 +39,6 @@ class _BuscadorState extends State<BuscadorEjercicios> {
     }, onError: (e){
       return e;
     });
-    t.setName(trainingName);
-    t.setDate(date);
   }
 
   @override
@@ -58,25 +58,24 @@ class _BuscadorState extends State<BuscadorEjercicios> {
 
   void _addExercise(Exercise e){
     bool added = false;
-    for (Exercise ex in t.exercises){
+    for (Exercise ex in addedExercises.exerciseList){
       if (e == ex) {
         added = true;
       }
     }
     if (added == false){
-      t.addExercise(e);
+      addedExercises.addExercise(e);
       // print(t.nExercises);
-      if (t.nExercises == 10) {
+      if (addedExercises.exerciseList.length == 10) {
         _createTraining(context);
       }
     }
   }
 
   void _removeExercise(Exercise e){
-    for (Exercise ex in t.exercises){
+    for (Exercise ex in addedExercises.exerciseList){
       if (e.id == ex.id){
-        t.exercises.remove(ex);
-        t.nExercises -= 1;
+        addedExercises.exerciseList.remove(ex);
       }
     }
   }
@@ -113,7 +112,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
 
   Widget _getIcon(Exercise e){
     bool added = false;
-    for (Exercise ex in t.exercises){
+    for (Exercise ex in addedExercises.exerciseList){
       if (e.id == ex.id){
         added = true;
       }
@@ -157,11 +156,12 @@ class _BuscadorState extends State<BuscadorEjercicios> {
   }
 
   void _createTraining(BuildContext context){
-    if (t.exercises.isEmpty) {
-      _showAlertDialog(context);
+    if (addedExercises.exerciseList.isEmpty) {
+      addExercises(training.id, null);
+      _moveToHome();
     }else{
       // llamada al backend
-      createTraining(t.name, t.date, t.exercises);
+      addExercises(training.id, addedExercises.exerciseList);
       // volver a incio tras esperar
       _moveToHome();
     }
@@ -176,8 +176,8 @@ class _BuscadorState extends State<BuscadorEjercicios> {
           content: const Text('Debes añadir al menos 1 ejercicio.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'Aceptar'),
-              child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
             ),
           ],
         ));
@@ -200,7 +200,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
       for (var item in dummySearchList.exerciseList) {
         bool added = false;
         if(item.name.toLowerCase().contains(query) || item.bodyPart2.toLowerCase().contains(query) || item.bodyPart3.toLowerCase().contains(query)){
-            dummyListData.addExercise(item);
+          dummyListData.addExercise(item);
         }
       }
       setState(() {
@@ -226,7 +226,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
     return FutureBuilder<ExerciseList>(
         future: futureExerciseList,
         builder: (context, snapshot) {
-        if (snapshot.hasData) {
+          if (snapshot.hasData) {
             return Scaffold(
                 backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
                 appBar: AppBar(
@@ -278,7 +278,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
                               padding: const EdgeInsets.all(16.0),
                               itemCount: filter.exerciseList.length,
                               itemBuilder: (BuildContext context, int index) =>
-                                _buildRow(filter.exerciseList[index], index),
+                                  _buildRow(filter.exerciseList[index], index),
                               separatorBuilder: (BuildContext context, int index) =>
                               const Divider(),
                             ),
@@ -293,7 +293,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
                                   builder: (BuildContext context) => AlertDialog(
                                     backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
                                     title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
-                                    content: const Text('¿Seguro que quieres crear el entrenamiento?', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
+                                    content: const Text('¿Añadir ejercicios?', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
                                         onPressed: () => Navigator.pop(context, 'Cancel'),
@@ -301,17 +301,17 @@ class _BuscadorState extends State<BuscadorEjercicios> {
                                       ),
                                       TextButton(
                                         onPressed: () => {
-                                          Navigator.pop(context, 'OK'),
+                                          Navigator.pop(context, 'Confirmar'),
                                           _createTraining(context)
                                         },
-                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                     ],
                                   ),
                                 ),
                                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
                                 child: const Text(
-                                    "Crear entrenamiento",
+                                    "Confirmar",
                                     style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
                               ),
                             ),
@@ -320,17 +320,17 @@ class _BuscadorState extends State<BuscadorEjercicios> {
                     ),
                   ),
                 )
-    );
-      } else if (snapshot.hasError) {
-        return Text("${snapshot.error}");
-      }
-      return Container(
-          height: MediaQuery.of(context).size.height,
-          color: const Color(0x1BFFFFFF),
-          child: const Center(
-            child: CircularProgressIndicator(),
-          )
-      );
+            );
+          } else if (snapshot.hasError) {
+            return Text("${snapshot.error}");
+          }
+          return Container(
+              height: MediaQuery.of(context).size.height,
+              color: const Color(0x1BFFFFFF),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              )
+          );
         }
     );
   }

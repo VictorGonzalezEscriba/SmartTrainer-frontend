@@ -4,7 +4,7 @@ class newTraining{
   int nExercises = 0;
   List<Exercise> exercises = [];
   String date;
-
+  DateTime realDate;
 
   void addExercise(Exercise e){
     exercises.add(e);
@@ -17,7 +17,10 @@ class newTraining{
 
   void setDate(DateTime d) {
     date = d.day.toString() + "-" + d.month.toString() + "-" + d.year.toString();
+    realDate = d;
   }
+
+
 
 }
 
@@ -105,7 +108,7 @@ class Training {
   int nExercises;
   List<Exercise> exercises = [];
   String date;
-
+  DateTime realDate;
 
   Training(this.id, this.name, this.type, this.nExercises, this.date);
 
@@ -119,6 +122,19 @@ class Training {
 
   void setDate(DateTime d) {
     date = d.day.toString() + "-" + d.month.toString() + "-" + d.year.toString();
+    realDate = d;
+  }
+
+  DateTime getRealDate(){
+    List<String> parts = date.split("-");
+    if (parts[1].length == 1){
+      parts[1] = "0"+parts[1];
+    }
+    if (parts[2].length == 1){
+      parts[2] = "0"+parts[2];
+    }
+    String d = parts[2] + "-" + parts[1] + "-" + parts[0];
+    return DateTime.parse(d).toUtc();
   }
 }
 
@@ -143,6 +159,16 @@ class eList {
 
   void addExercise(Exercise e){
     exerciseList.add(e);
+    length += 1;
+  }
+}
+
+class tList {
+  List<Training> trainingList = [];
+  int length = 0;
+
+  void addTraining(Training t){
+    trainingList.add(t);
     length += 1;
   }
 }

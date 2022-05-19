@@ -121,3 +121,49 @@ void editTraining(Training t) async {
     throw Exception('Failed to create training');
   }
 }
+
+void eliminaEntreno(int trainingId) async {
+  String uri = "$baseUrl/delete_training?$trainingId";
+  Uri myUri = Uri.parse(uri);
+  final response = await client.get(myUri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to create training');
+  }
+}
+
+void eliminaEjercicio(int trainingId, int exerciseId) async {
+  String uri = "$baseUrl/delete_exercise?$trainingId?$exerciseId";
+  Uri myUri = Uri.parse(uri);
+  final response = await client.get(myUri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to create training');
+  }
+}
+
+void addExercises(int trainingId, List<Exercise> exercises) async {
+  String exs = "";
+  if (exercises == null) {
+    exs = "-1";
+  }
+  else {
+    exs = convertToString(exercises);
+  }
+  String uri = "$baseUrl/add_exercises?$trainingId?$exs";
+  Uri myUri = Uri.parse(uri);
+  final response = await client.get(myUri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to create training');
+  }
+}

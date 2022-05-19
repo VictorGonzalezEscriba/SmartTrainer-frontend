@@ -49,6 +49,8 @@ linter:
 dev_dependencies:
   build_runner: ^2.0.0
   json_serializable: ^6.0.0
+  table_calendar: ^3.0.5
+  shared_preferences: ^0.5.4+5
   flutter_test:
     sdk: flutter
   flutter_localizations:

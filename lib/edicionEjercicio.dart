@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/training.dart';
 import 'detalleEjercicio.dart';
+import 'detalleEntrenamiento.dart';
+import 'main.dart';
 import 'requests.dart';
 
 
@@ -447,6 +449,12 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
     }
   }
 
+  void _eliminaEjercicio(int trainingId, int exerciseId) async {
+    eliminaEjercicio(trainingId, exerciseId);
+    await Future.delayed(const Duration(milliseconds: 500), (){});
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) =>  const MyApp()));
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
@@ -498,29 +506,82 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
                 padding: const EdgeInsetsDirectional.fromSTEB(10, 2, 10, 8),
                 child: _getRow2(),
               ),
-              Visibility(
-                visible: !keyboardIsOpen,
-                child: Padding(
-                  padding:  const EdgeInsetsDirectional.fromSTEB(15, 35, 15, 15),
-                  child: ElevatedButton(
-                    onPressed: () => _editE(context),
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
-                    child: const Text(
-                        "Confirmar",
-                        style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
-                  ),
-                ),
-              ),
-              Visibility(
-                visible: !keyboardIsOpen,
-                child: Padding(
-                  padding:  const EdgeInsetsDirectional.fromSTEB(15,15, 15, 35),
-                  child: ElevatedButton(
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, exercise))),
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(197, 38, 27, 1))),
-                    child: const Text(
-                        "Cancelar",
-                        style: TextStyle(fontFamily: 'Poppins', color: Colors.white, fontSize:18)),
+              Padding(
+                padding:  const EdgeInsetsDirectional.fromSTEB(35, 50, 35, 0),
+                child: Center(
+                  child: Visibility(
+                    visible: !keyboardIsOpen,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center, //Center Row contents horizontally,
+                      crossAxisAlignment: CrossAxisAlignment.center, //Center Row contents vertically,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 15, 0),
+                          child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: const Color(0xFF40916C),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.save,
+                                  color: const Color.fromRGBO(34, 40, 47, 1),
+                                  size: 30,
+                                ),
+                                onPressed: () => _editE(context),
+                              )
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                          child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: const Color.fromRGBO(197, 38, 27, 1),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.clear,
+                                  color:  Color.fromRGBO(34, 40, 47, 1),
+                                  size: 30,
+                                ),
+                                onPressed: () =>  Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, exercise))),
+                              )
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(15, 16, 0, 0),
+                          child: CircleAvatar(
+                              radius: 30,
+                              backgroundColor: const Color.fromRGBO(197, 38, 27, 1),
+                              child: IconButton(
+                                icon: const Icon(
+                                  Icons.delete,
+                                  color:  Color.fromRGBO(34, 40, 47, 1),
+                                  size: 30,
+                                ),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
+                                    title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+                                    content: Text('¿Seguro que quieres eliminar el ejercicio?',  style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => {
+                                          Navigator.pop(context, 'OK'),
+                                          _eliminaEjercicio(training.id, exercise.id)
+                                        },
+                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

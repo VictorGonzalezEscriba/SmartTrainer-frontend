@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import '../training.dart';
 import 'creacionUsuario33.dart';
 
-class CreacionU2 extends StatelessWidget {
-  CreacionU2(this.trainingName);
+class CreacionU2 extends StatefulWidget {
+  const CreacionU2({Key key, this.trainingName}) : super(key: key);
+  final String trainingName;
+
+  @override
+  _CreacionU2 createState() => _CreacionU2(trainingName);
+}
+
+class _CreacionU2 extends State<CreacionU2> {
+  _CreacionU2(this.trainingName);
   final myController = TextEditingController();
   String trainingName;
   DateTime date;
@@ -11,7 +21,25 @@ class CreacionU2 extends StatelessWidget {
   void _checkDate(BuildContext context) {
     if (date != null){
       Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3(trainingName, date)));
+    }else{
+      _showAlertDialog(context);
     }
+  }
+
+  Future<String> _showAlertDialog(BuildContext context){
+    return showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: Color.fromRGBO(34, 40, 47, 1),
+        title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+        content: const Text('Debes seleccionar una fecha para el entrenamiento', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => Navigator.pop(context, 'OK'),
+            child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+          ),
+        ],
+      ));
   }
 
   void _selectDate(BuildContext context) async{

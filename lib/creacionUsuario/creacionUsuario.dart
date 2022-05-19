@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'creacionUsuario33.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 class CreacionU extends StatefulWidget {
   const CreacionU({Key key}) : super(key: key);
@@ -11,16 +10,51 @@ class CreacionU extends StatefulWidget {
 
 class _CreacionUState extends State<CreacionU> {
   final myController = TextEditingController();
-  String trainingName = "Nuevo entrenamiento";
+  String trainingName = "";
   DateTime date;
 
   void _checkDate(BuildContext context) {
-    if (date != null){
-      if(trainingName == ""){
-        Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3("Nuevo entrenamiento", date)));
-      }
-      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3(trainingName, date)));
+    if (trainingName == ""){
+      _showAlertDialog2(context);
+    }else{
+       if (date == null) {
+         _showAlertDialog(context);
+       } else {
+         Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => CreacionU3(trainingName, date)));
+       }
     }
+  }
+
+  Future<String> _showAlertDialog(BuildContext context){
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          backgroundColor: Color.fromRGBO(34, 40, 47, 1),
+          title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+          content: const Text('Debes seleccionar una fecha para el entrenamiento.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+            ),
+          ],
+        ));
+  }
+
+  Future<String> _showAlertDialog2(BuildContext context){
+    return showDialog<String>(
+        context: context,
+        builder: (BuildContext context) => AlertDialog(
+          backgroundColor: Color.fromRGBO(34, 40, 47, 1),
+          title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+          content: const Text('Debes introducir un nombre para el entrenamiento.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () => Navigator.pop(context, 'OK'),
+              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+            ),
+          ],
+        ));
   }
 
   void _selectDate(BuildContext context) async{
