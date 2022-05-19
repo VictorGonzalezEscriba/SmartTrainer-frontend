@@ -296,15 +296,15 @@ class _BuscadorState extends State<BuscadorEjercicios> {
                                     content: const Text('¿Seguro que quieres crear el entrenamiento?', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        onPressed: () => Navigator.pop(context, 'Cancelar'),
+                                        child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                       TextButton(
                                         onPressed: () => {
-                                          Navigator.pop(context, 'OK'),
+                                          Navigator.pop(context, 'Aceptar'),
                                           _createTraining(context)
                                         },
-                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                     ],
                                   ),

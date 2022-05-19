@@ -34,8 +34,8 @@ class _CreacionUState extends State<CreacionU> {
           content: const Text('Debes seleccionar una fecha para el entrenamiento.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+              onPressed: () => Navigator.pop(context, 'Aceptar'),
+              child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
             ),
           ],
         ));
@@ -50,8 +50,8 @@ class _CreacionUState extends State<CreacionU> {
           content: const Text('Debes introducir un nombre para el entrenamiento.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+              onPressed: () => Navigator.pop(context, 'Aceptar'),
+              child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
             ),
           ],
         ));
