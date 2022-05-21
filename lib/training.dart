@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 class newTraining{
   String name;
   int nExercises = 0;

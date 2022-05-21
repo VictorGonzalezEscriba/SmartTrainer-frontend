@@ -473,7 +473,7 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
             mainAxisSize: MainAxisSize.max,
             children: [
               const Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(12, 30, 12, 0),
+                padding: EdgeInsetsDirectional.fromSTEB(12, 15, 12, 0),
                 child: Text(
                     'EDICIÓN',
                     textAlign: TextAlign.center,
