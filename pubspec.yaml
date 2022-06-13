@@ -36,7 +36,8 @@ dependencies:
   convert: ^3.0.1
   flutter:
     sdk: flutter
-
+  firebase_core: ^1.17.1
+  firebase_database: ^9.0.15
 # Add these lines
 linter:
   rules:

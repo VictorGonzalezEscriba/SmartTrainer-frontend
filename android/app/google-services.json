@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "629286348967",
+    "firebase_url": "https://smarttrainer-b8a31-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "smarttrainer-b8a31",
+    "storage_bucket": "smarttrainer-b8a31.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629286348967:android:e66cea9689dff3d82f1382",
+        "android_client_info": {
+          "package_name": "com.example.smart_trainer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629286348967-b6kq2mvjf9fb2cv66re44l8u6m1vng0l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDzWvUooJQwR4Sml9m1n5F-hFs6I-kx44Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629286348967-b6kq2mvjf9fb2cv66re44l8u6m1vng0l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

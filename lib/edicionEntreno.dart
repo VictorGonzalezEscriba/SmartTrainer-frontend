@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:smart_trainer/detalleEntrenamiento.dart';
 import 'package:smart_trainer/requests.dart';
 import 'package:smart_trainer/training.dart';
-
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'buscadorEjercicios/buscador.dart';
 import 'main.dart';
+import 'package:flutter/services.dart';
 
 
 class EdicionEntreno extends StatefulWidget {
@@ -21,7 +23,49 @@ class _EdicionEntreno extends State<EdicionEntreno>{
   TextEditingController editingController = TextEditingController();
   String newName;
   DateTime newDate;
+  final ref = FirebaseDatabase.instance.ref("trainings");
 
+  _showCodeDialog(String id){
+    showDialog<String>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
+        title: const Text('Este es el código de tu entrenamiento:', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+        content: Text(id,  style: const TextStyle(fontSize: 22,fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () => {
+              Clipboard.setData(ClipboardData(text: id)),
+              Navigator.pop(context, 'Copiar'),
+            },
+            child: const Text('Copiar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+          ),
+          TextButton(
+            onPressed: () => {
+              Navigator.pop(context, 'OK'),
+            },
+            child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _compartirEntreno(int id) async {
+    String aux_id = "";
+    exportTraining(id).then((result) async {
+      final splitted = result.split('---');
+      aux_id = splitted[0];
+      String training = splitted[1];
+      print("Id: " + aux_id);
+      DatabaseReference child = ref.child(aux_id);
+      await child.set(training);
+    });
+    await Future.delayed(const Duration(milliseconds: 500), (){});
+    if (aux_id != ""){
+      _showCodeDialog(aux_id);
+    }
+  }
 
   void _eliminaEntreno(int id) async {
     eliminaEntreno(id);
@@ -246,18 +290,38 @@ class _EdicionEntreno extends State<EdicionEntreno>{
                               )
                           ),
                         ),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(15, 16, 0, 0),
                           child: CircleAvatar(
                               radius: 30,
                               backgroundColor: Color(0xFF40916C),
                               child: IconButton(
-                                icon: Icon(
+                                icon: const Icon(
                                   Icons.share,
                                   color:  Color.fromRGBO(34, 40, 47, 1),
                                   size: 30,
                                 ),
-                                // onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training))),
+                                onPressed: () => showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) => AlertDialog(
+                                    backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
+                                    title: const Text('¡Atención!', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+                                    content: Text('¿Seguro que quieres compartir el entrenamiento: ' + training.name + "?",  style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context, 'Cancel'),
+                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => {
+                                          Navigator.pop(context, 'OK'),
+                                          _compartirEntreno(training.id),
+                                        },
+                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               )
                           ),
                         ),

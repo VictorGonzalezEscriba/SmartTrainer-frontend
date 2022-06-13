@@ -157,7 +157,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
   }
 
   void _createTraining(BuildContext context){
-    if (t.exercises.isEmpty) {
+    if (t.exercises.length < 3) {
       _showAlertDialog(context);
     }else{
       // llamada al backend
@@ -171,9 +171,9 @@ class _BuscadorState extends State<BuscadorEjercicios> {
     return showDialog<String>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          backgroundColor: Color.fromRGBO(34, 40, 47, 1),
+          backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
           title: const Text('Error:', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
-          content: const Text('Debes añadir al menos 1 ejercicio.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
+          content: const Text('Debes añadir al menos 3 ejercicios.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
               onPressed: () => Navigator.pop(context, 'Aceptar'),

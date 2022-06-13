@@ -167,3 +167,17 @@ void addExercises(int trainingId, List<Exercise> exercises) async {
     throw Exception('Failed to create training');
   }
 }
+
+Future<String> exportTraining(int trainingId) async {
+  String uri = "$baseUrl/export?$trainingId";
+  Uri myUri = Uri.parse(uri);
+  final response = await client.get(myUri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
+    return utf8.decode(response.bodyBytes);
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to create training');
+  }
+}
