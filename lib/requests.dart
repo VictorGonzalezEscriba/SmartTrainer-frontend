@@ -2,6 +2,8 @@ import 'dart:convert' as convert;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:smart_trainer/training.dart';
+import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 final http.Client client = http.Client();
 // better than http.get() if multiple requests to the same server
@@ -175,6 +177,21 @@ Future<String> exportTraining(int trainingId) async {
   if (response.statusCode == 200) {
     // print("statusCode=$response.statusCode");
     return utf8.decode(response.bodyBytes);
+  } else {
+    // If the server did not return a 200 OK response, then throw an exception.
+    // print("statusCode=$response.statusCode");
+    throw Exception('Failed to create training');
+  }
+}
+
+void importTraining(String training) async {
+  String uri = "$baseUrl/import?$training";
+  // print("String:" + uri)
+  Uri myUri = Uri.parse(uri);
+  // print("Parsed:" + myUri.toString());
+  final response = await client.get(myUri);
+  if (response.statusCode == 200) {
+    // print("statusCode=$response.statusCode");
   } else {
     // If the server did not return a 200 OK response, then throw an exception.
     // print("statusCode=$response.statusCode");

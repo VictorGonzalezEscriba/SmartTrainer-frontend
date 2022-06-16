@@ -42,9 +42,9 @@ class _EdicionEntreno extends State<EdicionEntreno>{
           ),
           TextButton(
             onPressed: () => {
-              Navigator.pop(context, 'OK'),
+              Navigator.pop(context, 'Confirmar'),
             },
-            child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+            child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
           ),
         ],
       ),

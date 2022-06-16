@@ -38,6 +38,7 @@ dependencies:
     sdk: flutter
   firebase_core: ^1.17.1
   firebase_database: ^9.0.15
+  path_provider: ^2.0.11
 # Add these lines
 linter:
   rules:
