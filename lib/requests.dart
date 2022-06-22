@@ -1,9 +1,8 @@
 import 'dart:convert' as convert;
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:smart_trainer/training.dart';
-import 'package:path_provider/path_provider.dart';
-import 'dart:io';
+import 'package:smart_trainer/classes.dart';
+
 
 final http.Client client = http.Client();
 // better than http.get() if multiple requests to the same server

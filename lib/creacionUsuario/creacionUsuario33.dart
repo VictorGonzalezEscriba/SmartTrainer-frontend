@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import '../buscadorEjercicios/buscadorEjercicios.dart';
-import '../training.dart';
+import '../classes.dart';
 
 class CreacionU3 extends StatelessWidget {
   CreacionU3(this.trainingName, this.date);

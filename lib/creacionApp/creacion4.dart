@@ -14,7 +14,9 @@ class PaginaCreacion4 extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
           backgroundColor: const Color(0xFF40916C),
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
           elevation: 2,
@@ -38,7 +40,7 @@ class PaginaCreacion4 extends StatelessWidget {
                     onPressed: () async {
                       generateTraining(location, type, part);
                       await Future.delayed(const Duration(milliseconds: 500), (){});
-                      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp()));
+                      Navigator.of(context).popUntil((route) => route.isFirst);
                     },
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
                     child: const Text(
@@ -54,7 +56,9 @@ class PaginaCreacion4 extends StatelessWidget {
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                   child: TextButton(
                     // 'FullBody'
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp())),
+                    onPressed: () => {
+                      Navigator.of(context).popUntil((route) => route.isFirst)
+                    },
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color.fromRGBO(197, 38, 27, 1))),
                     child: const Text(
                         'No',

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
-import 'package:smart_trainer/training.dart';
+import 'package:smart_trainer/classes.dart';
 import 'calendar.dart';
 import 'creacionApp/creacion0.dart';
-import 'detalleEntrenamiento.dart';
+import 'trainings/detalleEntrenamiento.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState(){
+    _selectedIndex = 0;
     super.initState();
     futureTrainingList = getTrainings();
   }
@@ -63,7 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _selectedIndex = index;
       print(_selectedIndex);
       if (_selectedIndex == 1) {
-        Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => Calendario()));
+        Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => Calendario())).then(onGoBack);
       }
     });
   }
@@ -82,10 +83,18 @@ class _MyHomePageState extends State<MyHomePage> {
               title: Text(t.name, style: const TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 22)),
               subtitle: Text(t.date, style: const TextStyle(color: Colors.white60)),
               trailing: const Icon(Icons.chevron_right_outlined, size: 35, color: Colors.white),
-              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(t))),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training: t), settings: const RouteSettings(name: 'detalleEntreno'))).then(onGoBack),
             )
         )
     );
+  }
+
+  // To refresh the training list
+  onGoBack(dynamic value) {
+    setState(() {
+      _selectedIndex = 0;
+      futureTrainingList = getTrainings();
+    });
   }
 
   @override
@@ -99,7 +108,7 @@ class _MyHomePageState extends State<MyHomePage> {
               appBar: AppBar(
                 backgroundColor: const Color(0xFF40916C),
                 automaticallyImplyLeading: false,
-                title: const Text("Smart Trainer", style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
+                title: const Text("Smart Trainer", style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
                 centerTitle: true,
                 elevation: 2,
                 // actions: <Widget>[
@@ -140,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Icons.add,
                             color:  Color.fromRGBO(34, 40, 47, 1),
                             size: 30,
-                          ), onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion0())),
+                          ), onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion0())).then(onGoBack),
                         ),
                       ),
                     ),

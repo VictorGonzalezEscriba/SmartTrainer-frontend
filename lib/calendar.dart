@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
-import 'package:smart_trainer/training.dart';
+import 'package:smart_trainer/classes.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'detalleEntrenamientoFake.dart';
+import 'trainings/detalleEntrenamientoFake.dart';
 import 'main.dart';
 
 class Calendario extends StatefulWidget {
@@ -59,15 +59,21 @@ class _CalendarioState extends State<Calendario> {
       _selectedIndex = index;
       // print(_selectedIndex);
       if (_selectedIndex == 0) {
-        Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp()));
+        Navigator.of(context).popUntil((route) => route.isFirst);
       }
     });
   }
 
+  Future<bool> _onWillPop() async {
+    _selectedIndex = 0;
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
       backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
       appBar: AppBar(
         backgroundColor: const Color(0xFF40916C),
@@ -193,10 +199,10 @@ class _CalendarioState extends State<Calendario> {
                           ),
                           title: Padding(
                             padding: const EdgeInsets.only(bottom: 8.0),
-                            child: Text(Training.name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, )),
+                            child: Text(Training.name, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, )),
                           ),
                           subtitle: Text("Nº de ejercicios: " + Training.exercises.length.toString(), style: const TextStyle(color: Colors.white60, fontWeight: FontWeight.bold, )),
-                          onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento2(Training))),
+                          onTap: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento2(training: Training), settings: const RouteSettings(name: 'detalleEntreno'))),
                         ),
                       ),
                     ),
@@ -222,6 +228,6 @@ class _CalendarioState extends State<Calendario> {
         selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
-    );
+    ));
   }
 }

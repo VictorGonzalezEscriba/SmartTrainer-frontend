@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:smart_trainer/training.dart';
+import 'package:smart_trainer/classes.dart';
 import 'detalleEjercicio.dart';
-import 'detalleEntrenamiento.dart';
-import 'main.dart';
-import 'requests.dart';
+import '../requests.dart';
 
 
 class EdicionEjercicio extends StatefulWidget {
@@ -50,7 +48,7 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
       newSeries = 0;
       newRepes = 0;
       editExercise(training.id, exercise);
-      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, exercise)));
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training: training, exercise: exercise)));
     }
   }
 
@@ -452,16 +450,24 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
   void _eliminaEjercicio(int trainingId, int exerciseId) async {
     eliminaEjercicio(trainingId, exerciseId);
     await Future.delayed(const Duration(milliseconds: 500), (){});
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) =>  const MyApp()));
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  Future<bool> _onWillPop() async {
+    Navigator.popUntil(context, (route) => route.settings.name== 'detalleEjercicio');
   }
 
   @override
   Widget build(BuildContext context) {
     final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+        child:Scaffold(
       backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
       appBar: AppBar(
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: Icon(Icons.arrow_back),
+            onPressed: () => Navigator.popUntil(context, (route) => route.settings.name== 'detalleEjercicio'),
+          ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
@@ -541,7 +547,7 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
                                   color:  Color.fromRGBO(34, 40, 47, 1),
                                   size: 30,
                                 ),
-                                onPressed: () =>  Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEjercicio(training, exercise))),
+                                onPressed: () => Navigator.popUntil(context, (route) => route.settings.name== 'detalleEjercicio'),
                               )
                           ),
                         ),
@@ -564,15 +570,15 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
                                     content: Text('¿Seguro que quieres eliminar el ejercicio?',  style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        onPressed: () => Navigator.pop(context, 'Cancelar'),
+                                        child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                       TextButton(
                                         onPressed: () => {
-                                          Navigator.pop(context, 'OK'),
+                                          Navigator.pop(context, 'Confirmar'),
                                           _eliminaEjercicio(training.id, exercise.id)
                                         },
-                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                     ],
                                   ),
@@ -589,6 +595,6 @@ class _EdicionEjercicio extends State<EdicionEjercicio> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

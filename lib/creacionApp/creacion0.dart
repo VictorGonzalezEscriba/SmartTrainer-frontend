@@ -3,7 +3,6 @@ import '../main.dart';
 import 'creacion_1.dart';
 import 'package:smart_trainer/requests.dart';
 import '../creacionUsuario/creacionUsuario.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 
 class PaginaCreacion0 extends StatefulWidget {
@@ -48,7 +47,7 @@ class _PaginaCreacion0 extends State<PaginaCreacion0> {
                 onPressed: () => {
                   Navigator.pop(context, 'Confirmar'),
                   _textFieldController.clear(),
-                  Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp())),
+                  Navigator.of(context).popUntil((route) => route.isFirst),
                 },
                 child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
               ),
@@ -125,14 +124,21 @@ class _PaginaCreacion0 extends State<PaginaCreacion0> {
         });
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
     final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
-    return Scaffold(
+    return WillPopScope(
+        onWillPop: _onWillPop,
+        child: Scaffold(
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
@@ -197,6 +203,6 @@ class _PaginaCreacion0 extends State<PaginaCreacion0> {
             ]
           ),
       )
-    );
+        ));
   }
 }

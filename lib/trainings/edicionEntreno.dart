@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:smart_trainer/detalleEntrenamiento.dart';
+import 'package:smart_trainer/trainings/detalleEntrenamiento.dart';
 import 'package:smart_trainer/requests.dart';
-import 'package:smart_trainer/training.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:smart_trainer/classes.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'buscadorEjercicios/buscador.dart';
-import 'main.dart';
+import '../buscadorEjercicios/buscador.dart';
 import 'package:flutter/services.dart';
 
 
@@ -70,7 +68,12 @@ class _EdicionEntreno extends State<EdicionEntreno>{
   void _eliminaEntreno(int id) async {
     eliminaEntreno(id);
     await Future.delayed(const Duration(milliseconds: 500), (){});
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) =>  const MyApp()));
+    Navigator.of(context).popUntil((route) => route.isFirst);
+  }
+
+  _goHome() async{
+    await Future.delayed(const Duration(milliseconds: 500), (){});
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   void checkEdit(BuildContext context) {
@@ -85,13 +88,15 @@ class _EdicionEntreno extends State<EdicionEntreno>{
       if (newD != training.date){
         training.date = newD;
         changed = true;
+        print("Date modified");
       }
     }
 
     if (changed == true){
       editTraining(training);
     }
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training)));
+
+    _goHome();
   }
 
   void _selectDate(BuildContext context) async{
@@ -140,13 +145,21 @@ class _EdicionEntreno extends State<EdicionEntreno>{
     }
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training: training), settings: const RouteSettings(name: 'detalleEntreno')));
+  }
+
   @override
   Widget build(BuildContext context) {
     final bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom!=0.0;
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
       backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
       appBar: AppBar(
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training: training), settings: const RouteSettings(name: 'detalleEntreno'))),
+          ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
@@ -157,7 +170,7 @@ class _EdicionEntreno extends State<EdicionEntreno>{
                 Icons.clear,
                 color: Colors.white,
               ),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training))),
+              onPressed: () => Navigator.pop(context),
             )
           ]
       ),
@@ -259,15 +272,15 @@ class _EdicionEntreno extends State<EdicionEntreno>{
                                     content: Text('¿Seguro que quieres guardar los cambios?',  style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        onPressed: () => Navigator.pop(context, 'Cancelar'),
+                                        child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                       TextButton(
                                         onPressed: () => {
-                                          Navigator.pop(context, 'OK'),
+                                          Navigator.pop(context, 'Confirmar'),
                                           checkEdit(context),
                                         },
-                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                     ],
                                   ),
@@ -286,7 +299,7 @@ class _EdicionEntreno extends State<EdicionEntreno>{
                                   color:  const Color.fromRGBO(34, 40, 47, 1),
                                   size: 30,
                                 ),
-                                onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training))),
+                                onPressed: () => Navigator.popUntil(context, (route) => route.settings.name== 'detalleEntreno'),
                               )
                           ),
                         ),
@@ -344,15 +357,15 @@ class _EdicionEntreno extends State<EdicionEntreno>{
                                     content: Text('¿Seguro que quieres eliminar el entrenamiento: ' + training.name + "?",  style: const TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        onPressed: () => Navigator.pop(context, 'Cancelar'),
+                                        child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                       TextButton(
                                         onPressed: () => {
-                                          Navigator.pop(context, 'OK'),
+                                          Navigator.pop(context, 'Confirmar'),
                                           _eliminaEntreno(training.id)
                                         },
-                                        child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        child: const Text('Confirmar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                     ],
                                   ),
@@ -369,7 +382,7 @@ class _EdicionEntreno extends State<EdicionEntreno>{
           ),
         ),
       ),
-    );
+      ));
   }
 }
 

@@ -12,7 +12,9 @@ class PaginaCreacion3 extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
           backgroundColor: const Color(0xFF40916C),
-          automaticallyImplyLeading: true,
+          leading: IconButton(icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
           elevation: 2,

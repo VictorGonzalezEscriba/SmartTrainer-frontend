@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'creacion2.dart';
 
 class PaginaCreacion1 extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
         appBar: AppBar(
+          leading: IconButton(icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context),
+          ),
           backgroundColor: const Color(0xFF40916C),
-          automaticallyImplyLeading: true,
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
           centerTitle: true,
           elevation: 2,

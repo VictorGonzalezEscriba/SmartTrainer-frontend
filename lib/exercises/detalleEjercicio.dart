@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:smart_trainer/detalleEntrenamiento.dart';
-import 'package:smart_trainer/training.dart';
+import 'package:smart_trainer/trainings/detalleEntrenamiento.dart';
+import 'package:smart_trainer/classes.dart';
 import 'edicionEjercicio.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class detalleEjercicio extends StatelessWidget {
-  detalleEjercicio(this.training, this.exercise);
+
+
+class detalleEjercicio extends StatefulWidget {
+  const detalleEjercicio({Key key, this.training, this.exercise}) : super(key:key);
+  final Training training;
+  final Exercise exercise;
+
+  @override
+  _detalleEjercicio createState() => _detalleEjercicio(training, exercise);
+}
+
+class _detalleEjercicio extends State<detalleEjercicio> {
+  _detalleEjercicio(this.training, this.exercise);
   Exercise exercise;
   Training training;
 
@@ -113,13 +124,19 @@ class detalleEjercicio extends StatelessWidget {
     }
   }
 
+  Future<bool> _onWillPop() async {
+    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training: training), settings: const RouteSettings(name: 'detalleEntreno')));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Scaffold(
       backgroundColor: const Color.fromRGBO(34, 40, 47, 1),
       appBar: AppBar(
           leading: IconButton(icon: Icon(Icons.arrow_back),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training))),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => detalleEntrenamiento(training: training), settings: const RouteSettings(name: 'detalleEntreno'))),
           ),
           backgroundColor: const Color(0xFF40916C),
           title: const Text('SmartTrainer', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white, fontSize:22)),
@@ -181,6 +198,6 @@ class detalleEjercicio extends StatelessWidget {
           ),
         ),
       ),
-    );
+    ));
   }
 }

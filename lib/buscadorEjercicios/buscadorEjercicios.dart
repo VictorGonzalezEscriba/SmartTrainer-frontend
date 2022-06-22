@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
-import '../training.dart';
+import '../classes.dart';
 import 'package:smart_trainer/main.dart';
 
 class BuscadorEjercicios extends StatefulWidget {
@@ -89,8 +89,8 @@ class _BuscadorState extends State<BuscadorEjercicios> {
           title: const Text('Ejercicio añadido.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+              onPressed: () => Navigator.pop(context, 'Aceptar'),
+              child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
             ),
           ],
         ));
@@ -104,8 +104,8 @@ class _BuscadorState extends State<BuscadorEjercicios> {
           title: const Text('Ejercicio eliminado.', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white)),
           actions: <Widget>[
             TextButton(
-              onPressed: () => Navigator.pop(context, 'OK'),
-              child: const Text('OK',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+              onPressed: () => Navigator.pop(context, 'Aceptar'),
+              child: const Text('Aceptar',  style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
             ),
           ],
         ));
@@ -185,7 +185,7 @@ class _BuscadorState extends State<BuscadorEjercicios> {
 
   void _moveToHome() async {
     await Future.delayed(const Duration(milliseconds: 500), (){});
-    Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => const MyApp()));
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 
   void searchExercise(String q){

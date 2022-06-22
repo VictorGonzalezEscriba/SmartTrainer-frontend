@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_trainer/requests.dart';
-import '../training.dart';
+import '../trainings/edicionEntreno.dart';
+import '../classes.dart';
 import 'package:smart_trainer/main.dart';
 
 class Buscador extends StatefulWidget {
@@ -158,12 +159,12 @@ class _Buscador extends State<Buscador> {
   void _createTraining(BuildContext context){
     if (addedExercises.exerciseList.isEmpty) {
       addExercises(training.id, null);
-      _moveToHome();
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) =>  EdicionEntreno(training: training)));
     }else{
       // llamada al backend
       addExercises(training.id, addedExercises.exerciseList);
       // volver a incio tras esperar
-      _moveToHome();
+      Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => EdicionEntreno(training: training)));
     }
   }
 
@@ -296,8 +297,8 @@ class _Buscador extends State<Buscador> {
                                     content: const Text('¿Añadir ejercicios?', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Colors.white60)),
                                     actions: <Widget>[
                                       TextButton(
-                                        onPressed: () => Navigator.pop(context, 'Cancel'),
-                                        child: const Text('Cancel', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
+                                        onPressed: () => Navigator.pop(context, 'Cancelar'),
+                                        child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Poppins', color: Color(0xFF40916C))),
                                       ),
                                       TextButton(
                                         onPressed: () => {
