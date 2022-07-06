@@ -129,13 +129,19 @@ class Training {
 
   DateTime getRealDate(){
     List<String> parts = date.split("-");
+
+    if (parts[0].length == 1){
+      parts[0] = "0"+parts[0];
+    }
     if (parts[1].length == 1){
       parts[1] = "0"+parts[1];
     }
     if (parts[2].length == 1){
       parts[2] = "0"+parts[2];
     }
+
     String d = parts[2] + "-" + parts[1] + "-" + parts[0];
+    print("Date: " + DateTime.parse(d).toUtc().toString());
     return DateTime.parse(d).toUtc();
   }
 }

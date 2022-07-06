@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'creacion2.dart';
+import 'creacion4.dart';
 
 class PaginaCreacion1 extends StatelessWidget {
   @override
@@ -29,7 +30,7 @@ class PaginaCreacion1 extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(0, 30, 0, 0),
                   child: TextButton(
-                    onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion2(1))),
+                    onPressed: () => Navigator.of(context).push(MaterialPageRoute<void>(builder: (context) => PaginaCreacion4(1, 0 ,0))),
                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(const Color(0xFF40916C))),
                     child: const Text(
                         'Casa',

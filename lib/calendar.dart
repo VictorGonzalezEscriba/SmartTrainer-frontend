@@ -40,7 +40,6 @@ class _CalendarioState extends State<Calendario> {
     selectedCalendarDate = _focusedDay;
     myTrainings = {};
     futureTrainingList = getTrainings().then((result) {
-      // print(items.length);
       setState(() {
           _getMapFormat(result);
         });
